@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Avaliação
  * Disciplina de Programação para Camada de Negócio
- * @author <<< Put your full name here >>> e Professor Rafael Zancan Frantz
+ * @author Stéfani Gabriele Arnold de Camargo, Julia da Silva Picinini e Professor Rafael Zancan Frantz
  */
 public class Message {
 
@@ -15,6 +15,8 @@ public class Message {
     private Priority priority;
     private Date expirationDate;
     private String content;
+    private UUID targetPort;
+    private int sequenceNumber;
     
     /* Adicione aqui os novos atributos e mais abaixo os respectivos métodos para acessá-los */
 
@@ -66,6 +68,22 @@ public class Message {
     
     public void setExpirationDate( Date date ) {
         expirationDate = date;
+    }
+    
+    public UUID getTargetPort() {
+    return targetPort;
+    }
+
+    public void setTargetPort(UUID targetPort) {
+        this.targetPort = targetPort;
+    }
+
+    public int getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(int sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
     }
     
 }
