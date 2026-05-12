@@ -25,7 +25,7 @@ public class MessageManagerDB {
     public static void store(List<Message> messageList) {
         Connection con = getConnection();       
         if(con == null){
-            System.out.println("Conexão faljou");
+            System.out.println("Conexão falhou");
             return;
         }
         
