@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.sql.Date
+
 
 import java.util.List;
 
@@ -48,8 +48,8 @@ public class MessageManagerDB {
             for(Message msg : messageList){
                 pstm.setString(1, msg.getId().toString());
                 pstm.setInt(2, msg.getPriority().ordinal());
-                pstm.setDate(3, Date(msg.getCreationDate().getTime()));
-                pstm.setDate(4, Date(msg.getExpirationDate().getTime()));
+                pstm.setDate(3, new java.sql.Date(msg.getCreationDate().getTime()));
+                pstm.setDate(4, new java.sql.Date(msg.getExpirationDate().getTime()));
                 pstm.setString(5, msg.getTargetPort().toString());
                 pstm.setShort(6, (short) msg.getSequenceNumber());
                 pstm.setString(7, msg.getContent());
