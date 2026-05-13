@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
-
 import java.util.List;
 
 /**
@@ -18,11 +17,7 @@ import java.util.List;
  */
 public class MessageManagerDB {
 
-    
-    /**
-     * Stores every message in the list of generated messages;
-     * @param messageList the list of messages to be stored in the database.
-     */
+   
     public static void store(List<Message> messageList) {
         Connection con = getConnection();       
         if(con == null){
@@ -43,21 +38,23 @@ public class MessageManagerDB {
                      """;
         try{
             con.setAutoCommit(false);
+            
             PreparedStatement pstm = con.prepareStatement(sql);
             
             for(Message msg : messageList){
-                pstm.setString(1, msg.getId().toString());
-                pstm.setInt(2, msg.getPriority().ordinal());
-                pstm.setDate(3, new java.sql.Date(msg.getCreationDate().getTime()));
-                pstm.setDate(4, new java.sql.Date(msg.getExpirationDate().getTime()));
-                pstm.setString(5, msg.getTargetPort().toString());
-                pstm.setShort(6, (short) msg.getSequenceNumber());
-                pstm.setString(7, msg.getContent());
+                
+                pstm.setString (1, msg.getId().toString());
+                pstm.setInt    (2, msg.getPriority().ordinal());
+                pstm.setDate   (3, new java.sql.Date(msg.getCreationDate().getTime()));
+                pstm.setDate   (4, new java.sql.Date(msg.getExpirationDate().getTime()));
+                pstm.setString (5, msg.getTargetPort().toString());
+                pstm.setShort  (6, (short) msg.getSequenceNumber());
+                pstm.setString (7, msg.getContent());
                 
                 pstm.executeUpdate(); 
-                
+
                 con.commit();
-                System.out.println(messageList.size() + " mensagens armazenadas com sucesso!");
+                
             }
         } catch (SQLException e) {
             System.out.println("Erro! Fazendo rollback: " + e.getMessage());
@@ -76,17 +73,11 @@ public class MessageManagerDB {
     }
     
     
-
-    /**
-     * Print messages with a given priority which are stored in the database
-     *
-     * @param priority the priority to select messages
-     */
     public static void printMessages( Priority priority ) {
         
         Connection con = getConnection();
         if(con == null){
-            System.out.println("Conexão faljou");
+            System.out.println("Conexão falhou");
         }
         
         String sql = """
@@ -104,9 +95,10 @@ public class MessageManagerDB {
             ResultSet rs = st.executeQuery(sql);
             
             boolean achou = false;
+            
             while(rs.next()){
                 achou = true;
-                System.out.println("-----------------------------");
+                System.out.println("----------------------------------------------------------");
                 System.out.println("ID:                " + rs.getString("ID"));
                 System.out.println("Prioridade:        " + Priority.values()[rs.getInt("PRIORITY")]);
                 System.out.println("Data de criação:   " + rs.getDate("CREATION_DATE"));
@@ -116,7 +108,9 @@ public class MessageManagerDB {
             if (!achou) {
                 System.out.println("Nenhuma mensagem com prioridade: " + priority);
             }
+           
             rs.close();
+            
             st.close();
         } catch (SQLException e) {
              System.out.println("Erro na consulta: " + e.getMessage());
